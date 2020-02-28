@@ -4264,19 +4264,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\38067\\.nuget\\packages\\": {}
+    "C:\\Users\\Yevhen_Kokhan1\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\38067\\Downloads\\Telegram Desktop\\Facebook1\\Facebook1\\Facebook1.csproj",
+      "projectUniqueName": "C:\\Users\\Yevhen_Kokhan1\\Documents\\TA_tasks\\TA_tasks\\Facebook1\\Facebook1.csproj",
       "projectName": "Facebook1",
-      "projectPath": "C:\\Users\\38067\\Downloads\\Telegram Desktop\\Facebook1\\Facebook1\\Facebook1.csproj",
-      "packagesPath": "C:\\Users\\38067\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\38067\\Downloads\\Telegram Desktop\\Facebook1\\Facebook1\\obj\\",
+      "projectPath": "C:\\Users\\Yevhen_Kokhan1\\Documents\\TA_tasks\\TA_tasks\\Facebook1\\Facebook1.csproj",
+      "packagesPath": "C:\\Users\\Yevhen_Kokhan1\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Yevhen_Kokhan1\\Documents\\TA_tasks\\TA_tasks\\Facebook1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\38067\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Yevhen_Kokhan1\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

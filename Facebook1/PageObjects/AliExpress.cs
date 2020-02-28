@@ -1,18 +1,24 @@
 ﻿using OpenQA.Selenium;
-using System.Collections.Generic;
 using SeleniumExtras.PageObjects;
-using System;
-using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace TA_Lab.PageObjects
 {
-    class AliExpress : BaseClass
+    internal class AliExpress : BaseClass
     {
-        string name = "книга";
-        string bookPrice = "100";
         public AliExpress(IWebDriver driver) : base(driver)
         {
-
+            SearchForm = searchForm;
+            MinPrice = minPrice;
+            FirstSetPrices = firstSetPrices;
+            OkButton = okButton;
+            Login = login;
+            Password = password;
+            Iframe = iframe;
+            Iframe1 = Iframe1;
+            SignIn = signIn;
+            CloseAdd = closeAdd;
+            Close = close;
         }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='search-key-box']//input")]
@@ -23,43 +29,34 @@ namespace TA_Lab.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//span[@class='price-input popmode ltr']//a")]
         private IWebElement okButton;
-      
+
         [FindsBy(How = How.XPath, Using = "//span[@class='price-current']")]
         private IList<IWebElement> firstSetPrices;
 
+        [FindsBy(How = How.XPath, Using = "//iframe[@id='alibaba-login-box']")]
+        private IWebElement iframe;
+
+        [FindsBy(How = How.XPath, Using = "//iframe[@id='localstorage-proxy-ifr-alibabadotcom2']")]
+        private IWebElement iframe1;
+
+        [FindsBy(How = How.CssSelector, Using = "span.register-btn a")]
+        private IWebElement signIn;
+
+        [FindsBy(How = How.CssSelector, Using = "input#fm-login-id")]
+        private IWebElement login;
+
+        [FindsBy(How = How.CssSelector, Using = "input#fm-login-password")]
+        private IWebElement password;
+
+        [FindsBy(How = How.XPath, Using = "//a[@class='close-layer']")]
+        private IWebElement closeAdd;
+
+        [FindsBy(How = How.XPath, Using = "//div[@class='next-dialog next-closeable ui-newuser-layer-dialog']/a")]
+        private IWebElement close;
 
         public void goToSite()
         {
             driver.Navigate().GoToUrl("https://aliexpress.ru/");
         }
-
-        public void searchItems()
-        {
-            searchForm.SendKeys(name + Keys.Enter);
-        }
-
-        public void setMinPrice()
-        {
-            minPrice.Clear();
-            minPrice.SendKeys(bookPrice);
-            okButton.Click();
-        }
-
-        public void checkFilterPrice()
-        {
-            Assert.AreEqual(bookPrice, "100");
-        }
-
-        public void checkFirstSet()
-        {
-            for (int i = 0; i < firstSetPrices.Count; i++)
-            {
-                //if (Convert.ToInt32(firstSetPrices[i]) < Convert.ToInt32(bookPrice));
-                //continue;
-                Assert.LessOrEqual(Convert.ToInt32(bookPrice), Convert.ToInt32(firstSetPrices[i]));
-
-            }
-        }
-
     }
 }

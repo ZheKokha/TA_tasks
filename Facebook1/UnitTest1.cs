@@ -1,19 +1,17 @@
-using System;
-using System.Drawing;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using System.Collections.Generic;
-using System.Linq;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Interactions;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using TA_Lab.PageObjects;
+using WDSE;
 using WDSE.Decorators;
 using WDSE.ScreenshotMaker;
-using WDSE;
-using TA_Lab.PageObjects;
 
 namespace TA_Lab
 {
@@ -29,7 +27,6 @@ namespace TA_Lab
             actions = new Actions(driver);
             driver.Manage().Window.Maximize();
         }
-
 
         [Test]
         public void WikipediaTitle() //Practice exercise 1
@@ -54,7 +51,6 @@ namespace TA_Lab
             int pageSourceLength = pageSource.Length;
             Console.WriteLine($"PageSource length:{pageSourceLength}");
             driver.Quit();
-
         }
 
         [Test]
@@ -67,23 +63,19 @@ namespace TA_Lab
             driver.Navigate().GoToUrl("https://en.wikipedia.org/");
             driver.Navigate().Refresh();
             driver.Quit();
-
         }
 
         [Test]
         public void WikipediaWindow()  ////Practice exercise 3
         {
-
             driver.Manage().Window.Size = new Size(500, 600);
             driver.Manage().Window.Position = new Point(200, 150);
             driver.Manage().Window.Maximize();
             driver.Quit();
-
         }
 
-
         [Test]
-        public void ToolsQASite()  ////Practice exercise 
+        public void ToolsQASite()  ////Practice exercise
         {
             driver.Navigate().GoToUrl("http://toolsqa.com/automation-practice-form/");
 
@@ -101,7 +93,6 @@ namespace TA_Lab
 
             if (bValue == true)
             {
-
                 sexButton.ElementAt(1).Click();
             }
             else
@@ -131,7 +122,6 @@ namespace TA_Lab
             toolCheckBox.Click();
 
             driver.Quit();
-
         }
 
         [Test]
@@ -153,7 +143,6 @@ namespace TA_Lab
             string actualUrl = driver.Url;
             Assert.AreEqual(actualUrl, expectedUrl);
             driver.Quit();
-
         }
 
         [Test]
@@ -165,17 +154,13 @@ namespace TA_Lab
             image.SaveAsFile("C:/temp/Screenshot.png", ScreenshotImageFormat.Png);
         }
 
-
-
         [Test]
-
         public void WikipediaContainerScreen()
         {
             driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
             IWebElement didYouKnowContainer = driver.FindElement(By.CssSelector("div#mp-dyk"));
             MakeElemScreenshot(driver, didYouKnowContainer);
             driver.Quit();
-
         }
 
         public void MakeElemScreenshot(IWebDriver driver, IWebElement elem)
@@ -188,7 +173,6 @@ namespace TA_Lab
             elemScreenshot.Save("C:/temp/Screenshot.png", ImageFormat.Png);
         }
 
-
         [Test]
         public void WikwpediaContainer2Screen()
         {
@@ -197,7 +181,6 @@ namespace TA_Lab
             MakeElemScreenshot1(driver, inTheNewsContainer);
 
             driver.Quit();
-
         }
 
         public void MakeElemScreenshot1(IWebDriver driver, IWebElement elem)
@@ -210,38 +193,29 @@ namespace TA_Lab
             elemScreenshot.Save("C:/temp/Screenshot1.png", ImageFormat.Png);
         }
 
-
         [Test]
-
         public void Google()
         {
-           
             Google google = new Google(driver);
             google.goToSite();
             google.sendWord();
             google.headersToListFirstPage();
         }
-        
-       
 
         [Test]
-
         public void WikwpediaAllImageScreens()
         {
-         
             driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
 
             IList<IWebElement> allImages = driver.FindElements(By.XPath("//div[@class='thumbinner mp-thumb']//img | //div[@id='mp-bottom']//img"));
 
             for (int i = 0; i < allImages.Count; i++)
             {
-               
                 MakeScreenshot1($"C:/screens/Screenshot{i}.png", allImages[i]);
-                
             }
             driver.Quit();
         }
-        
+
         public void MakeScreenshot1(String imageSavePath, IWebElement elem)
         {
             var bytesArr = driver.TakeScreenshot(new VerticalCombineDecorator(new ScreenshotMaker()));
@@ -250,11 +224,9 @@ namespace TA_Lab
             Bitmap elemScreenshot = bitmap.Clone(new Rectangle(elem.Location, elem.Size), bitmap.PixelFormat);
             elemScreenshot.Save(imageSavePath);
             elemScreenshot.Dispose();
-            
         }
 
         [Test]
-
         public void FindConsist()
         {
             Google google = new Google(driver);
@@ -264,7 +236,6 @@ namespace TA_Lab
         }
 
         [Test]
-
         public void WikiContainer()
         {
             Wikipedia wiki = new Wikipedia(driver);
@@ -274,7 +245,6 @@ namespace TA_Lab
         }
 
         [Test]
-
         public void WikiContainer1()
         {
             Wikipedia wiki1 = new Wikipedia(driver);
@@ -288,15 +258,11 @@ namespace TA_Lab
             Rozetka rozetka = new Rozetka(driver);
             rozetka.goToSite();
             rozetka.searchItems();
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("window.scrollBy(0,750)");
+            rozetka.scroll();
             rozetka.setMinPrice();
             rozetka.checkFilterPrice();
             rozetka.checkFirstSet();
-
-           
         }
-
 
         [Test]
         public void Bing()
@@ -305,7 +271,6 @@ namespace TA_Lab
             bing.goToSite();
             bing.sendWord();
             bing.headersToListFirstPage();
-                       
         }
 
         [Test]
@@ -315,31 +280,22 @@ namespace TA_Lab
             yahoo.goToSite();
             yahoo.sendWord();
             yahoo.headersToListFirstPage();
-
         }
 
         [Test]
-        public void AliEkspress()
+        public void AliExpress()
         {
             AliExpress aliExpress = new AliExpress(driver);
             aliExpress.goToSite();
+            aliExpress.signingIn();
+            // Thread.Sleep(10000);
+            aliExpress.aliRegister();
             aliExpress.searchItems();
-            aliExpress.setMinPrice();
+            aliExpress.close();
+            //Thread.Sleep(10000);
+            aliExpress.setMinPriceAli();
             aliExpress.checkFilterPrice();
             aliExpress.checkFirstSet();
-
-
         }
-
     }
-
-    }
-
-
-
-
-
-
-
-
-    
+}
