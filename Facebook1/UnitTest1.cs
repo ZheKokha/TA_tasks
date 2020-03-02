@@ -2,16 +2,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
 using TA_Lab.PageObjects;
-using WDSE;
-using WDSE.Decorators;
-using WDSE.ScreenshotMaker;
 
 namespace TA_Lab
 {
@@ -28,274 +19,87 @@ namespace TA_Lab
             driver.Manage().Window.Maximize();
         }
 
-        [Test]
-        public void WikipediaTitle() //Practice exercise 1
-        {
-            string url = "https://en.wikipedia.org";
-            driver.Navigate().GoToUrl(url);
-            string title = driver.Title;
-            int titleLenght = title.Length;
-            Console.WriteLine($"Title:{title}");
-            Console.WriteLine($"Title length:{titleLenght}");
-            string actualUrl = driver.Url;
-
-            if (actualUrl.Equals(url))
-            {
-                Console.WriteLine("Verification Successful - The correct Url is opened.");
-            }
-            else
-            {
-                Console.WriteLine("Verification Failed - An incorrect Url is opened.");
-            }
-            string pageSource = driver.PageSource;
-            int pageSourceLength = pageSource.Length;
-            Console.WriteLine($"PageSource length:{pageSourceLength}");
-            driver.Quit();
-        }
-
-        [Test]
-        public void WikipediaNavigate()  ////Practice exercise 2
-        {
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/");
-            driver.FindElement(By.LinkText("Help")).Click();
-            driver.Navigate().Back();
-            driver.Navigate().Forward();
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/");
-            driver.Navigate().Refresh();
-            driver.Quit();
-        }
-
-        [Test]
-        public void WikipediaWindow()  ////Practice exercise 3
-        {
-            driver.Manage().Window.Size = new Size(500, 600);
-            driver.Manage().Window.Position = new Point(200, 150);
-            driver.Manage().Window.Maximize();
-            driver.Quit();
-        }
-
-        [Test]
-        public void ToolsQASite()  ////Practice exercise
-        {
-            driver.Navigate().GoToUrl("http://toolsqa.com/automation-practice-form/");
-
-            IWebElement button = driver.FindElement(By.Name("sex"));
-            IList<IWebElement> sexButton = driver.FindElements(By.Name("sex"));
-
-            bool bValue = false;
-
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("window.scrollBy(0,750)");
-
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
-            bValue = sexButton.ElementAt(0).Selected;
-
-            if (bValue == true)
-            {
-                sexButton.ElementAt(1).Click();
-            }
-            else
-            {
-                sexButton.ElementAt(0).Click();
-            }
-
-            IWebElement yearsButton = driver.FindElement(By.Id("exp-2"));
-            yearsButton.Click();
-
-            IList<IWebElement> checkBoxProfession = driver.FindElements(By.Name("profession"));
-
-            int iSize = checkBoxProfession.Count;
-
-            for (int i = 0; i < iSize; i++)
-            {
-                String Value = checkBoxProfession.ElementAt(i).GetAttribute("value");
-
-                if (Value.Equals("Automation Tester"))
-                {
-                    checkBoxProfession.ElementAt(i).Click();
-                    break;
-                }
-            }
-
-            IWebElement toolCheckBox = driver.FindElement(By.CssSelector("input[value='Selenium IDE']"));
-            toolCheckBox.Click();
-
-            driver.Quit();
-        }
-
-        [Test]
-        public void Facebook()
-
-        {
-            driver.Navigate().GoToUrl("https://facebook.com/");
-            string email = "e-mail";
-            string password = "password";
-            IWebElement emailField = driver.FindElement(By.CssSelector("input#email"));
-            emailField.SendKeys(email);
-
-            IWebElement passwordField = driver.FindElement(By.CssSelector("input#pass"));
-            passwordField.SendKeys(password);
-
-            IWebElement loginButton = driver.FindElement(By.CssSelector(" label#loginbutton"));
-            loginButton.Click();
-            string expectedUrl = "https://www.facebook.com/";
-            string actualUrl = driver.Url;
-            Assert.AreEqual(actualUrl, expectedUrl);
-            driver.Quit();
-        }
-
-        [Test]
-        public void WikipediaScreen()
-        {
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
-            Screenshot image = ((ITakesScreenshot)driver).GetScreenshot();
-            //Save the screenshot
-            image.SaveAsFile("C:/temp/Screenshot.png", ScreenshotImageFormat.Png);
-        }
-
-        [Test]
-        public void WikipediaContainerScreen()
-        {
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
-            IWebElement didYouKnowContainer = driver.FindElement(By.CssSelector("div#mp-dyk"));
-            MakeElemScreenshot(driver, didYouKnowContainer);
-            driver.Quit();
-        }
-
-        public void MakeElemScreenshot(IWebDriver driver, IWebElement elem)
-        {
-            Screenshot myScreenShot = ((ITakesScreenshot)driver).GetScreenshot();
-
-            Bitmap screen = new Bitmap(new MemoryStream(myScreenShot.AsByteArray));
-            Bitmap elemScreenshot = screen.Clone(new Rectangle(elem.Location, elem.Size), screen.PixelFormat);
-
-            elemScreenshot.Save("C:/temp/Screenshot.png", ImageFormat.Png);
-        }
-
-        [Test]
-        public void WikwpediaContainer2Screen()
-        {
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
-            IWebElement inTheNewsContainer = driver.FindElement(By.CssSelector("div#mp-itn"));
-            MakeElemScreenshot1(driver, inTheNewsContainer);
-
-            driver.Quit();
-        }
-
-        public void MakeElemScreenshot1(IWebDriver driver, IWebElement elem)
-        {
-            Screenshot myScreenShot = ((ITakesScreenshot)driver).GetScreenshot();
-
-            Bitmap screen = new Bitmap(new MemoryStream(myScreenShot.AsByteArray));
-            Bitmap elemScreenshot = screen.Clone(new Rectangle(elem.Location, elem.Size), screen.PixelFormat);
-
-            elemScreenshot.Save("C:/temp/Screenshot1.png", ImageFormat.Png);
-        }
-
-        [Test]
-        public void Google()
-        {
-            Google google = new Google(driver);
-            google.goToSite();
-            google.sendWord();
-            google.headersToListFirstPage();
-        }
-
-        [Test]
-        public void WikwpediaAllImageScreens()
-        {
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
-
-            IList<IWebElement> allImages = driver.FindElements(By.XPath("//div[@class='thumbinner mp-thumb']//img | //div[@id='mp-bottom']//img"));
-
-            for (int i = 0; i < allImages.Count; i++)
-            {
-                MakeScreenshot1($"C:/screens/Screenshot{i}.png", allImages[i]);
-            }
-            driver.Quit();
-        }
-
-        public void MakeScreenshot1(String imageSavePath, IWebElement elem)
-        {
-            var bytesArr = driver.TakeScreenshot(new VerticalCombineDecorator(new ScreenshotMaker()));
-            var ms = new MemoryStream(bytesArr);
-            Bitmap bitmap = new Bitmap(ms);
-            Bitmap elemScreenshot = bitmap.Clone(new Rectangle(elem.Location, elem.Size), bitmap.PixelFormat);
-            elemScreenshot.Save(imageSavePath);
-            elemScreenshot.Dispose();
-        }
-
-        [Test]
-        public void FindConsist()
-        {
-            Google google = new Google(driver);
-            google.goToSite();
-            google.sendWord();
-            google.headersToListAllPages();
-        }
-
+        //screenshots of specific containers
         [Test]
         public void WikiContainer()
         {
             Wikipedia wiki = new Wikipedia(driver);
-            wiki.goToSite();
-            wiki.makeDidYoyKnowScreen();
-            wiki.makeInTheNewsContainerScreen();
+            wiki.GoToSite();
+            wiki.MakeInTheNewsContainerScreen();
+            wiki.MakeDidYoyKnowScreen();
         }
 
+        //screenshots of all content images
         [Test]
-        public void WikiContainer1()
+        public void WikiAllImages()
         {
             Wikipedia wiki1 = new Wikipedia(driver);
-            wiki1.goToSite();
-            wiki1.makeAllImagesScreen();
+            wiki1.GoToSite();
+            wiki1.MakeAllImagesScreen();
         }
 
+        //search for a company name in all pages
         [Test]
-        public void Rozetka()
+        public void Google()
         {
-            Rozetka rozetka = new Rozetka(driver);
-            rozetka.goToSite();
-            rozetka.searchItems();
-            rozetka.scroll();
-            rozetka.setMinPrice();
-            rozetka.checkFilterPrice();
-            rozetka.checkFirstSet();
+            Google google = new Google(driver);
+            google.GoToSite();
+            google.SendWord();
+            google.HeadersToListAllPages();
         }
 
+        //search for a company name in all pages
         [Test]
         public void Bing()
         {
             Bing bing = new Bing(driver);
-            bing.goToSite();
-            bing.sendWord();
-            bing.headersToListFirstPage();
+            bing.GoToSite();
+            bing.SendWord();
+            bing.HeadersToListAllPages();
         }
 
+        //search for a company name in all pages
         [Test]
         public void Yahoo()
         {
             Yahoo yahoo = new Yahoo(driver);
-            yahoo.goToSite();
-            yahoo.sendWord();
-            yahoo.headersToListFirstPage();
+            yahoo.GoToSite();
+            yahoo.SendWord();
+            yahoo.HeadersToListAllPages();
         }
 
+        //search for items, setting min price, asserting
+        [Test]
+        public void Rozetka()
+        {
+            Rozetka rozetka = new Rozetka(driver);
+            rozetka.GoToSite();
+            rozetka.SearchItems();
+            rozetka.Scroll();
+            rozetka.SetMinPrice();
+            rozetka.CheckFilterPrice();
+            rozetka.CheckFirstSet();
+        }
+
+        //search for items, setting min price, asserting
         [Test]
         public void AliExpress()
         {
             AliExpress aliExpress = new AliExpress(driver);
-            aliExpress.goToSite();
-            aliExpress.signingIn();
-            // Thread.Sleep(10000);
-            aliExpress.aliRegister();
-            aliExpress.searchItems();
-            aliExpress.close();
-            //Thread.Sleep(10000);
-            aliExpress.setMinPriceAli();
-            aliExpress.checkFilterPrice();
-            aliExpress.checkFirstSet();
+            aliExpress.GoToSite();
+            aliExpress.SigningIn();
+            aliExpress.AliRegister();
+            aliExpress.SearchItems();
+            aliExpress.Close();
+            aliExpress.SetMinPriceAli();
+            aliExpress.CheckFilterPrice();
+            aliExpress.CheckFirstSet();
+        }
+
+        [TearDown]
+        public void Quit()
+        {
+            driver.Quit();
         }
     }
 }

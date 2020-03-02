@@ -33,10 +33,11 @@ namespace TA_Lab.PageObjects
         public IWebElement Iframe1 { get; set; }
         public IWebElement SignIn { get; set; }
         public IWebElement CloseAdd { get; set; }
-        public IWebElement Close { get; set; }
+        public IWebElement CloseButton { get; set; }
+        public string Url { get; set; }
 
         private string name = "університет";
-        private string companyName = "Київський національний економічний університет - Київ";
+        private string companyName = "Європейський університет";
         private string imageName = "screen" + DateTime.Now.ToString("HH_mm_ss") + ".png";
         private string itemname = "книга";
         private string bookPrice = "20";
@@ -48,12 +49,17 @@ namespace TA_Lab.PageObjects
             PageFactory.InitElements(driver, this);
         }
 
-        public void sendWord()
+        public void GoToSite()
+        {
+            driver.Navigate().GoToUrl(Url);
+        }
+
+        public void SendWord()
         {
             SearchField.SendKeys(name + Keys.Enter);
         }
 
-        public void headersToListFirstPage()
+        public void HeadersToListFirstPage()
         {
             string[] allText = new string[ArticleHeaders.Count];
             for (int k = 0; k < ArticleHeaders.Count; k++)
@@ -73,7 +79,7 @@ namespace TA_Lab.PageObjects
             MakeScreenshot("C:/temp/", imageName);
         }
 
-        public void headersToListAllPages()
+        public void HeadersToListAllPages()
         {
             for (int i = 1; i < 10; i++)
             {
@@ -94,7 +100,7 @@ namespace TA_Lab.PageObjects
                         iterator++;
                     }
                 }
-                if (iterator == listOfTitles.Count - 1)
+                if (iterator == listOfTitles.Count)
                 {
                     NextPage.Click();
                 }
@@ -120,17 +126,17 @@ namespace TA_Lab.PageObjects
             elemScreenshot.Dispose();
         }
 
-        public void makeDidYoyKnowScreen()
+        public void MakeDidYoyKnowScreen()
         {
-            MakeElementScreenshot($"C:/temp/{imageName}.png", DidYouKnowContainer);
+            MakeElementScreenshot($"C:/temp/{imageName}", DidYouKnowContainer);
         }
 
-        public void makeInTheNewsContainerScreen()
+        public void MakeInTheNewsContainerScreen()
         {
-            MakeElementScreenshot($"C:/ temp /{ imageName}.png", InTheNewsContainer);
+            MakeElementScreenshot($"C:/temp/{imageName}", InTheNewsContainer);
         }
 
-        public void makeAllImagesScreen()
+        public void MakeAllImagesScreen()
         {
             IList<IWebElement> allImage = AllImages;
             for (int i = 0; i < allImage.Count; i++)
@@ -139,35 +145,33 @@ namespace TA_Lab.PageObjects
             }
         }
 
-        public void searchItems()
+        public void SearchItems()
         {
             SearchForm.SendKeys(itemname + Keys.Enter);
         }
 
-        public void setMinPrice()
+        public void SetMinPrice()
 
         {
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='slider-filter__inner']/input[1]")));
-
             MinPrice.Clear();
             MinPrice.SendKeys(bookPrice + Keys.Enter);
         }
 
-        public void setMinPriceAli()
+        public void SetMinPriceAli()
         {
             MinPrice.Clear();
             MinPrice.SendKeys(bookPrice);
             OkButton.Click();
         }
 
-        public void checkFilterPrice()
+        public void CheckFilterPrice()
         {
             Assert.AreEqual(bookPrice, "20");
         }
 
-        public void checkFirstSet()
+        public void CheckFirstSet()
         {
             string[] allPrice = new string[FirstSetPrices.Count];
             for (int k = 0; k < FirstSetPrices.Count; k++)
@@ -213,34 +217,34 @@ namespace TA_Lab.PageObjects
             return result;
         }
 
-        public void scroll()
+        public void Scroll()
         {
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollBy(0,1000)");
         }
 
-        public void signingIn()
+        public void SigningIn()
         {
             if (CloseAdd.Displayed)
             { CloseAdd.Click(); }
             SignIn.Click();
         }
 
-        public void close()
+        public void Close()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='next-dialog next-closeable ui-newuser-layer-dialog']/a")));
-            if (Close.Enabled)
-                Close.Click();
+            if (CloseButton.Enabled)
+                CloseButton.Click();
         }
 
-        public void aliRegister()
+        public void AliRegister()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//iframe[@id='alibaba-login-box']")));
             driver.SwitchTo().Frame(Iframe);
             Login.SendKeys("zheniakokhan@ukr.net");
-            Password.SendKeys("23102004" + Keys.Enter);
+            Password.SendKeys("aa1111" + Keys.Enter);
             driver.SwitchTo().DefaultContent();
         }
     }

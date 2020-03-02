@@ -18,7 +18,8 @@ namespace TA_Lab.PageObjects
             Iframe1 = Iframe1;
             SignIn = signIn;
             CloseAdd = closeAdd;
-            Close = close;
+            CloseButton = close;
+            Url = "https://aliexpress.ru/";
         }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='search-key-box']//input")]
@@ -36,9 +37,6 @@ namespace TA_Lab.PageObjects
         [FindsBy(How = How.XPath, Using = "//iframe[@id='alibaba-login-box']")]
         private IWebElement iframe;
 
-        [FindsBy(How = How.XPath, Using = "//iframe[@id='localstorage-proxy-ifr-alibabadotcom2']")]
-        private IWebElement iframe1;
-
         [FindsBy(How = How.CssSelector, Using = "span.register-btn a")]
         private IWebElement signIn;
 
@@ -53,10 +51,5 @@ namespace TA_Lab.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//div[@class='next-dialog next-closeable ui-newuser-layer-dialog']/a")]
         private IWebElement close;
-
-        public void goToSite()
-        {
-            driver.Navigate().GoToUrl("https://aliexpress.ru/");
-        }
     }
 }

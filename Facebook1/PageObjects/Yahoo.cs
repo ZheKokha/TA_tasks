@@ -11,6 +11,7 @@ namespace TA_Lab.PageObjects
             SearchField = searchField;
             ArticleHeaders = articleHeaders;
             NextPage = nextPage;
+            Url = "https://www.yahoo.com/";
         }
 
         [FindsBy(How = How.XPath, Using = "//form[@id='header-search-form']/input[1]")]
@@ -21,10 +22,5 @@ namespace TA_Lab.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//div[@class='compPagination']//a[last()]")]
         private IWebElement nextPage;
-
-        public void goToSite()
-        {
-            driver.Navigate().GoToUrl("https://www.yahoo.com/");
-        }
     }
 }

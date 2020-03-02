@@ -11,6 +11,7 @@ namespace TA_Lab.PageObjects
             SearchForm = searchForm;
             MinPrice = minPrice;
             FirstSetPrices = firstSetPrices;
+            Url = "https://rozetka.com.ua/";
         }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='search-form__input-wrapper']//input")]
@@ -21,10 +22,5 @@ namespace TA_Lab.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//span[@class='goods-tile__price-value']")]
         private IList<IWebElement> firstSetPrices;
-
-        public void goToSite()
-        {
-            driver.Navigate().GoToUrl("https://rozetka.com.ua/");
-        }
     }
 }

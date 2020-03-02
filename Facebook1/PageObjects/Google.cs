@@ -11,6 +11,7 @@ namespace TA_Lab.PageObjects
             SearchField = searchField;
             ArticleHeaders = articleHeaders;
             NextPage = nextPage;
+            Url = "https://www.google.com/";
         }
 
         [FindsBy(How = How.CssSelector, Using = "input.gLFyf.gsfi")]
@@ -21,10 +22,5 @@ namespace TA_Lab.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//table[@id='nav']//td[last()]//span[2]")]
         private IWebElement nextPage;
-
-        public void goToSite()
-        {
-            driver.Navigate().GoToUrl("https://www.google.com.ua/?hl=ru");
-        }
     }
 }

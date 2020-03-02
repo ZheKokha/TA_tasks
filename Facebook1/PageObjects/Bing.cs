@@ -11,6 +11,7 @@ namespace TA_Lab.PageObjects
             SearchField = searchField;
             ArticleHeaders = articleHeaders;
             NextPage = nextPage;
+            Url = "https://www.bing.com/";
         }
 
         private string companyName = "Університет Короля Данила";
@@ -23,10 +24,5 @@ namespace TA_Lab.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//ul[@class='sb_pagF']//li[last()]//a")]
         private IWebElement nextPage;
-
-        public void goToSite()
-        {
-            driver.Navigate().GoToUrl("https://www.bing.com/");
-        }
     }
 }

@@ -11,6 +11,7 @@ namespace TA_Lab.PageObjects
             DidYouKnowContainer = didYouKnowContainer;
             InTheNewsContainer = inTheNewsContainer;
             AllImages = allImages;
+            Url = "https://en.wikipedia.org/wiki/Main_Page";
         }
 
         [FindsBy(How = How.CssSelector, Using = "div#mp-dyk")]
@@ -19,12 +20,7 @@ namespace TA_Lab.PageObjects
         [FindsBy(How = How.CssSelector, Using = "div#mp-itn")]
         private IWebElement inTheNewsContainer;
 
-        [FindsBy(How = How.XPath, Using = "//table//img")]//"//div[@class='thumbinner mp-thumb']//img | //div[@id='mp-bottom']//img")]
+        [FindsBy(How = How.XPath, Using = "//table//img")]
         private IList<IWebElement> allImages;
-
-        public void goToSite()
-        {
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
-        }
     }
 }
